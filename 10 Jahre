@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Einladung zur Feier</title>
+	<script src="script.js"></script>
+</head>
+<body>
+	<h1>Einladung zur Feier</h1>
+	<p>Bitte wähle aus, ob du kommst oder nicht:</p>
+	<form onsubmit="handleSubmit(event)">
+		<label for="name">Name:</label>
+		<input type="text" id="name" name="name" required>
+		<label for="antwort">Antwort:</label>
+		<select id="antwort" name="antwort" required>
+			<option value="">Bitte wählen</option>
+			<option value="zusage">Ich komme</option>
+			<option value="absage">Ich komme nicht</option>
+		</select>
+		<button type="submit">Abschicken</button>
+	</form>
+	<button onclick="generateAndDisplayReport()">Report generieren</button>
+	<textarea id="report" rows="10" cols="50" readonly></textarea>
+</body>
+</html>
+let antworten = [];
+
+function addAntwort(name, antwort) {
+	antworten.push({
+		name: name,
+		antwort: antwort
+	});
+}
+
+function generateReport() {
+	let report = "Name\tAntwor\tAntwort\n";
+antworten.forEach(function (antwort) {
+report += antwort.name + "\t" + antwort.antwort + "\n";
+});
+return report;
+}
+
+function handleSubmit(event) {
+event.preventDefault();
+let name = document.getElementById("name").value;
+let antwort = document.getElementById("antwort").value;
+addAntwort(name, antwort);
+event.target.reset();
+}
+
+function generateAndDisplayReport() {
+let report = generateReport();
+document.getElementById("report").value = report;
+}
